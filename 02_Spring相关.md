@@ -49,8 +49,25 @@ set方法注入
 
 
 
-**  **
+** spring事务失效的场景 **
+1、数据库引擎不支持事务
+MyISAM 引擎是不支持事务操作的，InnoDB 才是支持事务的引擎
 
+2、没有被 Spring 管理
+如果此时把 @Service 注解注释掉，这个类就不会被加载成一个 Bean，那这个类就不会被 Spring 管理了，事务自然就失效了。
+
+3、方法不是 public 的
+大概意思就是 @Transactional 只能用于 public 的方法上，否则事务不会失效，如果要用在非 public 方法上，可以开启 AspectJ 代理模式。
+4、自身调用问题是不会生效的（调用该类自己的方法，而没有经过Spring的代理，只有在外部调用）
+
+
+5.数据源没有配置事务管理器
+6,没有throw 异常
+7.异常类型错误
+
+
+事务失效
+https://mp.weixin.qq.com/s/1TEBnmWynN4nwc6Q-oZfvw
 
 **  **
 
